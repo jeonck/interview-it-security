@@ -42,6 +42,9 @@ class InterviewApp {
     async loadConfig() {
         try {
             const response = await fetch('data/config.json');
+            if (!response.ok) {
+                throw new Error(`HTTP ${response.status}: ${response.statusText}`);
+            }
             this.config = await response.json();
         } catch (error) {
             console.error('Failed to load config:', error);
@@ -52,10 +55,14 @@ class InterviewApp {
     // Load all questions from MD files
     async loadQuestions() {
         const questionFiles = this.config.questions || [];
+        let loadErrors = [];
 
         for (const file of questionFiles) {
             try {
                 const response = await fetch(`data/${file}`);
+                if (!response.ok) {
+                    throw new Error(`HTTP ${response.status}: ${response.statusText}`);
+                }
                 const markdown = await response.text();
                 const parsed = this.parseQuestionMD(markdown);
                 if (parsed) {
@@ -63,12 +70,40 @@ class InterviewApp {
                 }
             } catch (error) {
                 console.error(`Failed to load ${file}:`, error);
+                loadErrors.push(file);
             }
         }
 
         // Update total count
         document.getElementById('totalNum').textContent = this.questions.length;
         this.renderQuestionDots();
+
+        // Show error if no questions loaded
+        if (this.questions.length === 0) {
+            this.showLoadError(loadErrors);
+        }
+    }
+
+    // Show error when questions fail to load
+    showLoadError(failedFiles) {
+        const errorHtml = `
+            <div class="card" style="background: #fee; border-color: #c00; color: #900;">
+                <h2>⚠️ 질문을 불러올 수 없습니다</h2>
+                <p>질문 파일을 로드하는 데 실패했습니다. 네트워크 연결을 확인하거나 페이지를 새로고침 해주세요.</p>
+                <p style="font-size: 0.85em; margin-top: 1em;">
+                    <strong>디버깅 정보:</strong><br>
+                    현재 URL: ${window.location.href}<br>
+                    실패한 파일: ${failedFiles.join(', ') || 'config.json'}
+                </p>
+                <button onclick="location.reload()" class="btn btn-primary" style="margin-top: 1em;">새로고침</button>
+            </div>
+        `;
+
+        // Show in mock tab
+        document.getElementById('mockStart').innerHTML = errorHtml;
+
+        // Show in practice tab
+        document.querySelector('#practice .question-card').innerHTML = errorHtml;
     }
 
     // Parse question markdown file
