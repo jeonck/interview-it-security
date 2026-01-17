@@ -1,0 +1,244 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Samsung Texas Security Manager Interview Practice</title>
+    <link rel="stylesheet" href="styles.css">
+    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+</head>
+<body>
+    <div class="container">
+        <!-- Navigation Tabs -->
+        <nav class="tabs">
+            <button class="tab-btn active" data-tab="mock">모의 면접</button>
+            <button class="tab-btn" data-tab="overview">전체 보기</button>
+            <button class="tab-btn" data-tab="practice">자유 연습</button>
+            <button class="tab-btn" data-tab="tips">면접 팁</button>
+        </nav>
+
+        <!-- Free Practice Tab -->
+        <main id="practice" class="tab-content">
+            <!-- Question Navigation -->
+            <div class="question-nav">
+                <div class="question-dots" id="questionDots"></div>
+                <div class="question-counter">
+                    <span id="currentNum">1</span> / <span id="totalNum">10</span>
+                </div>
+            </div>
+
+            <!-- Category Badge -->
+            <div class="category-badge" id="categoryBadge">Loading...</div>
+
+            <!-- Question Card -->
+            <div class="card question-card">
+                <h2>Question</h2>
+                <p id="questionText">Loading question...</p>
+            </div>
+
+            <!-- Your Answer Section -->
+            <div class="card answer-section">
+                <h2>Your Answer</h2>
+                <textarea
+                    id="userAnswer"
+                    placeholder="여기에 답변을 작성하세요... STAR 기법을 활용해보세요 (Situation, Task, Action, Result)"
+                    rows="6"
+                ></textarea>
+                <div class="answer-actions">
+                    <button id="saveAnswerBtn" class="btn btn-secondary">답변 저장</button>
+                    <button id="showAnswerBtn" class="btn btn-primary">모범 답안 보기</button>
+                </div>
+            </div>
+
+            <!-- Model Answer Section (Hidden by default) -->
+            <div class="card model-answer hidden" id="modelAnswer">
+                <h2>Model Answer</h2>
+                <div id="modelAnswerText"></div>
+                <div class="keywords-section">
+                    <h3>Key Points</h3>
+                    <div id="keywords"></div>
+                </div>
+            </div>
+
+            <!-- Navigation Buttons -->
+            <div class="nav-buttons">
+                <button id="prevBtn" class="btn btn-outline" disabled>← 이전</button>
+                <button id="nextBtn" class="btn btn-outline">다음 →</button>
+            </div>
+        </main>
+
+        <!-- Mock Interview Tab -->
+        <section id="mock" class="tab-content active">
+            <!-- Mock Interview Start Screen -->
+            <div id="mockStart" class="mock-start-screen">
+                <div class="card">
+                    <h2>모의 면접 시작</h2>
+                    <p class="mock-description">실제 면접처럼 시간 제한을 두고 연습합니다.</p>
+
+                    <div class="mock-settings">
+                        <div class="setting-item">
+                            <label>질문 읽기 시간</label>
+                            <div class="setting-value">
+                                <input type="number" id="readTime" value="15" min="5" max="60"> 초
+                            </div>
+                        </div>
+                        <div class="setting-item">
+                            <label>답변 시간</label>
+                            <div class="setting-value">
+                                <input type="number" id="answerTime" value="30" min="10" max="180"> 초
+                            </div>
+                        </div>
+                        <div class="setting-item">
+                            <label>모범 답안 확인 시간</label>
+                            <div class="setting-value">
+                                <input type="number" id="reviewTime" value="20" min="10" max="120"> 초
+                            </div>
+                        </div>
+                        <div class="setting-item">
+                            <label>질문 수</label>
+                            <div class="setting-value">
+                                <select id="questionCount">
+                                    <option value="3">3문제</option>
+                                    <option value="5">5문제</option>
+                                    <option value="10" selected>전체 (10문제)</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+
+                    <button id="startMockBtn" class="btn btn-primary btn-large">면접 시작</button>
+                </div>
+            </div>
+
+            <!-- Mock Interview In Progress -->
+            <div id="mockInProgress" class="mock-in-progress hidden">
+                <!-- Top Bar: Phase + Question Counter -->
+                <div class="mock-top-bar">
+                    <!-- Phase Indicator -->
+                    <div class="phase-indicator">
+                        <div class="phase phase-read" id="phaseRead">
+                            <span class="phase-number">1</span>
+                            <span class="phase-name">질문 읽기</span>
+                        </div>
+                        <div class="phase-arrow">→</div>
+                        <div class="phase phase-answer" id="phaseAnswer">
+                            <span class="phase-number">2</span>
+                            <span class="phase-name">답변</span>
+                        </div>
+                        <div class="phase-arrow">→</div>
+                        <div class="phase phase-review" id="phaseReview">
+                            <span class="phase-number">3</span>
+                            <span class="phase-name">모범 답안</span>
+                        </div>
+                    </div>
+
+                    <!-- Question Counter -->
+                    <div class="mock-question-counter">
+                        질문 <span id="mockCurrentNum">1</span> / <span id="mockTotalNum">10</span>
+                    </div>
+                </div>
+
+                <!-- Category Badge -->
+                <div class="category-badge" id="mockCategoryBadge">Loading...</div>
+
+                <!-- Question Card -->
+                <div class="card question-card mock-question-card">
+                    <h2>Question</h2>
+                    <p id="mockQuestionText">Loading question...</p>
+                </div>
+
+                <!-- Answer Section (shown during answer phase) -->
+                <div class="card answer-section mock-answer-section hidden" id="mockAnswerSection">
+                    <h2>Your Answer</h2>
+                    <textarea
+                        id="mockUserAnswer"
+                        placeholder="답변을 말하면서 키워드를 메모하세요..."
+                        rows="4"
+                    ></textarea>
+                </div>
+
+                <!-- Model Answer Section (shown during review phase) -->
+                <div class="card model-answer mock-model-answer hidden" id="mockModelAnswer">
+                    <h2>Model Answer</h2>
+                    <div id="mockModelAnswerText"></div>
+                    <div class="keywords-section">
+                        <h3>Key Points</h3>
+                        <div id="mockKeywords"></div>
+                    </div>
+                </div>
+
+                <!-- Bottom Section: Timer + Controls -->
+                <div class="mock-bottom-section">
+                    <!-- Timer (Compact) -->
+                    <div class="timer-container-compact">
+                        <div class="timer-circle-compact">
+                            <svg class="timer-svg" viewBox="0 0 100 100">
+                                <circle class="timer-bg" cx="50" cy="50" r="45"></circle>
+                                <circle class="timer-progress" cx="50" cy="50" r="45" id="timerProgress"></circle>
+                            </svg>
+                            <div class="timer-content">
+                                <span class="timer-seconds" id="timerSeconds">15</span>
+                                <span class="timer-label" id="timerLabel">질문 읽기</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Control Buttons -->
+                    <div class="mock-controls">
+                        <button id="pauseMockBtn" class="btn btn-secondary">일시정지</button>
+                        <button id="skipMockBtn" class="btn btn-outline">건너뛰기</button>
+                        <button id="stopMockBtn" class="btn btn-danger">중단</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Mock Interview Complete -->
+            <div id="mockComplete" class="mock-complete hidden">
+                <div class="card">
+                    <div class="complete-icon">🎉</div>
+                    <h2>모의 면접 완료!</h2>
+                    <div class="mock-results">
+                        <div class="result-item">
+                            <span class="result-label">완료한 질문</span>
+                            <span class="result-value" id="completedQuestions">10</span>
+                        </div>
+                        <div class="result-item">
+                            <span class="result-label">총 소요 시간</span>
+                            <span class="result-value" id="totalTime">10:30</span>
+                        </div>
+                    </div>
+                    <div class="complete-actions">
+                        <button id="restartMockBtn" class="btn btn-primary">다시 시작</button>
+                        <button id="reviewAnswersBtn" class="btn btn-secondary">답변 복습</button>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Overview Tab -->
+        <section id="overview" class="tab-content">
+            <div class="overview-controls">
+                <button id="expandAllBtn" class="btn btn-secondary btn-small">모두 펼치기</button>
+                <button id="collapseAllBtn" class="btn btn-secondary btn-small">모두 접기</button>
+            </div>
+            <div id="overviewList" class="overview-list">
+                <!-- Questions will be rendered here -->
+            </div>
+        </section>
+
+        <!-- Tips Tab -->
+        <section id="tips" class="tab-content">
+            <div class="card">
+                <div id="tipsContent">Loading tips...</div>
+            </div>
+        </section>
+
+        <!-- Footer -->
+        <footer class="footer">
+            <p>Good luck with your interview! 🎯</p>
+        </footer>
+    </div>
+
+    <script src="app.js"></script>
+</body>
+</html>

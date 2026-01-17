@@ -1,0 +1,17 @@
+{
+  "title": "Samsung Texas Security Manager Interview Practice",
+  "subtitle": "Server Security Senior Manager / Engineer Manager Level 2",
+  "questions": [
+    "questions/01-incident-response.md",
+    "questions/02-stakeholder-management.md",
+    "questions/03-server-security-architecture.md",
+    "questions/04-team-leadership.md",
+    "questions/05-compliance-auditing.md",
+    "questions/06-vulnerability-management.md",
+    "questions/07-hiring-mentorship.md",
+    "questions/08-cloud-onpremise.md",
+    "questions/09-strategic-planning.md",
+    "questions/10-motivation-cultural-fit.md"
+  ],
+  "tips": "tips.md"
+}
