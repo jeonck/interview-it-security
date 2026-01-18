@@ -1,6 +1,13 @@
 {
   "title": "Samsung Texas Security Manager Interview Practice",
   "subtitle": "Server Security Senior Manager / Engineer Manager Level 2",
+  "description": "삼성전자 미국 법인 4차 면접 체계에 맞춘 면접 준비 도구",
+  "interviewStructure": {
+    "round1": "Technical Interview (실무 및 기술 역량)",
+    "round2": "Hiring Manager Interview (리더십 및 프로젝트 관리)",
+    "round3": "Executive/Culture Fit Interview (가치관 및 조직 융합)",
+    "round4": "HR/Final Interview (태도 및 보상/커리어)"
+  },
   "questions": [
     "questions/01-incident-response.md",
     "questions/02-stakeholder-management.md",
@@ -11,7 +18,35 @@
     "questions/07-hiring-mentorship.md",
     "questions/08-cloud-onpremise.md",
     "questions/09-strategic-planning.md",
-    "questions/10-motivation-cultural-fit.md"
+    "questions/10-motivation-cultural-fit.md",
+    "questions/r1-01-secure-boot.md",
+    "questions/r1-02-ddos-mitigation.md",
+    "questions/r1-03-log-auditing.md",
+    "questions/r1-04-zero-day.md",
+    "questions/r1-05-scaling-security.md",
+    "questions/r1-06-api-security.md",
+    "questions/r1-07-vulnerability-scanning.md",
+    "questions/r2-01-prioritization.md",
+    "questions/r2-02-difficult-employee.md",
+    "questions/r2-03-budget-management.md",
+    "questions/r2-04-team-motivation.md",
+    "questions/r2-05-cloud-migration.md",
+    "questions/r2-06-mentorship.md",
+    "questions/r2-07-team-metrics.md",
+    "questions/r3-01-why-samsung.md",
+    "questions/r3-02-speed-quality.md",
+    "questions/r3-03-failure.md",
+    "questions/r3-04-multicultural.md",
+    "questions/r3-05-ethics.md",
+    "questions/r3-06-staying-current.md",
+    "questions/r3-07-five-years.md",
+    "questions/r4-01-salary.md",
+    "questions/r4-02-relocation.md",
+    "questions/r4-03-leadership-style.md",
+    "questions/r4-04-pressure.md",
+    "questions/r4-05-weakness.md",
+    "questions/r4-06-first-year.md",
+    "questions/r4-07-questions.md"
   ],
   "tips": "tips.md"
 }
