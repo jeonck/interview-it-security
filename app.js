@@ -21,7 +21,7 @@ class InterviewApp {
             settings: {
                 readTime: 15,
                 answerTime: 30,
-                reviewTime: 20,
+                reviewTime: 50,
                 questionCount: 10
             }
         };
